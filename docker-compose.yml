@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  php:
+    build: 
+      context: docker/php
+      args:
+        APP_NAME: $APP_NAME
+        USER_NAME: Shin Ohno
+        USER_EMAIL: ohnoshin@gmail.com
+    ports: ['8000:8000'] 
+    tty: true
+    volumes:
+      - .:/var/www
+      - $HOME/.gitconfig:/root/.gitconfig
+    working_dir: /var/www/${APP_NAME}
+    env_file: ./.env
+
