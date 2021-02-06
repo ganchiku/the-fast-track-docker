@@ -1,8 +1,6 @@
 FROM php:7.4-cli
 
 ARG APP_NAME
-ARG USER_EMAIL
-ARG USER_NAME
 
 RUN echo "Asia/Tokyo" > /etc/timezone
 
@@ -42,14 +40,4 @@ RUN rm -rf composer-setup.php
 # Installing symfony
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-
-# Set GitInfo
-RUN git config --global user.email ${USER_EMAIL}
-RUN git config --global user.name ${USER_NAME}
-
-WORKDIR /var/www
-
-RUN symfony new ${APP_NAME} --version=5.0
-
-WORKDIR /var/www/${APP_NAME}
 
