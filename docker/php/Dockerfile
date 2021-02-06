@@ -1,0 +1,55 @@
+FROM php:7.4-cli
+
+ARG APP_NAME
+ARG USER_EMAIL
+ARG USER_NAME
+
+RUN echo "Asia/Tokyo" > /etc/timezone
+
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libxslt-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libpq-dev \
+    librabbitmq-dev \
+    zip \
+    unzip \
+    docker \
+    docker-compose \
+    npm \
+    git
+
+RUN git clone https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis
+
+RUN docker-php-ext-install \
+    pdo_pgsql zip gd xsl \
+    redis \
+    intl
+
+# Installing amqp docker-php-ext-install cannot install ampq
+RUN pecl install amqp
+RUN docker-php-ext-enable amqp
+
+# Installing yarn
+RUN npm install --global yarn
+
+# Installing composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN rm -rf composer-setup.php
+
+# Installing symfony
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+
+# Set GitInfo
+RUN git config --global user.email ${USER_EMAIL}
+RUN git config --global user.name ${USER_NAME}
+
+WORKDIR /var/www
+
+RUN symfony new ${APP_NAME} --version=5.0
+
+WORKDIR /var/www/${APP_NAME}
+
