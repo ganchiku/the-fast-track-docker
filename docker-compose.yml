@@ -9,9 +9,8 @@ services:
     ports: ['8000:8000'] 
     tty: true
     volumes:
-      - ./:/var/www
+      - ./${APP_NAME}:/var/www/${APP_NAME}
       - $HOME/.gitconfig:/root/.gitconfig
-        #    working_dir: /var/www/${APP_NAME}
-    working_dir: /var/www
+    working_dir: /var/www/${APP_NAME}
     env_file: ./.env
 
