@@ -32,6 +32,9 @@ RUN docker-php-ext-enable amqp
 # Installing yarn
 RUN npm install --global yarn
 
+# Setup php.ini 
+RUN mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
