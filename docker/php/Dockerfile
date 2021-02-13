@@ -29,6 +29,9 @@ RUN docker-php-ext-install \
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
 
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+
 # Installing yarn
 RUN npm install --global yarn
 
