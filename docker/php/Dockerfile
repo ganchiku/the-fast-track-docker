@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     librabbitmq-dev \
     zip \
     unzip \
+    postgresql \
     docker \
     docker-compose \
     npm \

@@ -12,5 +12,14 @@ services:
       - ./${APP_NAME}:/var/www/${APP_NAME}
       - $HOME/.gitconfig:/root/.gitconfig
     working_dir: /var/www/${APP_NAME}
-    env_file: ./.env
+    env_file: ./${APP_NAME}/.env
+    depends_on:
+      - database
 
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: main
+      POSTGRES_PASSWORD: main
+      POSTGRES_DB: main
+    ports: [5432]
