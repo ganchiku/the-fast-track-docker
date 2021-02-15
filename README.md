@@ -25,5 +25,23 @@ docker-compose exec php symfony server:start --no-tls
 ```
 Remember? we have added `docker-compose exec php` to the original command.
 
+## How to connect PostgreSQL with symfony command.
+Without ennvironment variables, you need to specify hostname, username, password, database name when you run `symfony run psql` command as follows:
+```sh
+docker-compose exec php symfony run psql -h database -U main
+```
+
+With environment variables, you can connect PostgreSQL by `symfony run psql`. 
+```sh
+docker-compose exec php symfony run psql
+```
+To set environment variables, you can use docker-compose.yml, or .env. In this example, I set the environment variables to .env as follows.
+```
+PGHOST=database
+PGPORT=5432
+PGDATABASE=main
+PGUSER=main
+PGPASSWORD=main
+```
 
 
