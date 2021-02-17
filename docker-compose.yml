@@ -4,8 +4,6 @@ services:
   php:
     build: 
       context: docker/php
-      args:
-        APP_NAME: $APP_NAME
     ports: ['8000:8000'] 
     tty: true
     volumes:

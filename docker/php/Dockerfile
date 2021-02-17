@@ -1,7 +1,5 @@
 FROM php:7.4-cli
 
-ARG APP_NAME
-
 RUN echo "Asia/Tokyo" > /etc/timezone
 
 RUN apt-get update && apt-get install -y \
