@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:8.0.2-cli
 
 RUN echo "Asia/Tokyo" > /etc/timezone
 
@@ -34,8 +34,14 @@ RUN docker-php-ext-install \
     intl
 
 # Installing amqp docker-php-ext-install cannot install ampq
-RUN pecl install amqp
-RUN docker-php-ext-enable amqp
+RUN apt-get update \
+	&& apt-get install -y -f librabbitmq-dev \
+		libssh-dev \
+	&& docker-php-source extract \
+	&& mkdir /usr/src/php/ext/amqp \
+	&& curl -L https://github.com/php-amqp/php-amqp/archive/master.tar.gz | tar -xzC /usr/src/php/ext/amqp --strip-components=1 \
+	&& docker-php-ext-install amqp \
+	&& docker-php-ext-enable amqp
 
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
