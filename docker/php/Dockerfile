@@ -3,6 +3,8 @@ FROM php:7.4-cli
 RUN echo "Asia/Tokyo" > /etc/timezone
 
 RUN apt-get update && apt-get install -y \
+    gnupg \
+    lsb-release \
     libpng-dev \
     libxslt-dev \
     zlib1g-dev \
@@ -11,11 +13,18 @@ RUN apt-get update && apt-get install -y \
     librabbitmq-dev \
     zip \
     unzip \
-    postgresql \
     docker \
     docker-compose \
     npm \
     git
+
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && cat /etc/apt/sources.list.d/pgdg.list \
+    && curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y  \
+        postgresql-client-13 \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis
 
